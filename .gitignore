@@ -1,0 +1,11 @@
+*.dproj.local
+*.groupproj.local
+*.identcache
+*.dcu
+*.stat
+**/__history
+**/__recovery
+doc/docoutput/*
+
+Win32/*
+Win64/*
