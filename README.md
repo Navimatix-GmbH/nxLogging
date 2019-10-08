@@ -1,0 +1,1 @@
+This is nxLogging - a logging framework for Delphi
