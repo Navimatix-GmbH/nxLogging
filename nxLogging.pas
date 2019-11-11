@@ -1036,7 +1036,6 @@ type
   end;
 
   // ***** Funktionen und Prozeduren...
-  procedure Register;
   function  NowUTC: TDateTime;
   procedure initLoggerFormatSettings(var FormatSettings : TFormatSettings);
 
@@ -1070,11 +1069,6 @@ var
 { **************************************************************************** }
 { ***** allgemeine Funktionen ************************************************ }
 { **************************************************************************** }
-
-procedure Register;
-begin
-  RegisterComponents('Logging', [TNxLogger]);
-end;
 
 {$IF Defined(ANDROID) or Defined(IOS)}
 function NowUTC: TDateTime;
