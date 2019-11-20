@@ -1048,9 +1048,9 @@ implementation
 
 uses
 {$IF Defined(ANDROID) or Defined(IOS)}
-  Posix.Stdio,
+  //Posix.Stdio,
 {$ELSE}
-  Windows,
+  //Windows,
 {$IFEND}
 
 {$IF CompilerVersion >= 24.0 }
@@ -1070,12 +1070,12 @@ var
 { ***** allgemeine Funktionen ************************************************ }
 { **************************************************************************** }
 
-{$IF Defined(ANDROID) or Defined(IOS)}
 function NowUTC: TDateTime;
 begin
   result := TTimeZone.Local.ToUniversalTime(Now);
 end;
 
+{$IF Defined(ANDROID) or Defined(IOS)}
 function internalGetCurrentProcessId : String;
 begin
   //result  := Application.Title;
@@ -1089,22 +1089,17 @@ begin
 end;
 
 {$ELSE}
-function NowUTC: TDateTime;
-var
-  SystemTime: TSystemTime;
-begin
-  GetSystemTime(SystemTime);
-  Result := SystemTimeToDateTime (SystemTime);
-end;
 
 function internalGetCurrentProcessId : String;
 begin
-  result := IntToStr(Windows.GetCurrentProcessId);
+  //result := IntToStr(Windows.GetCurrentProcessId);
+  result := '';
 end;
 
 function internalGetCurrentThreadId : String;
 begin
-  result  := IntToStr(Windows.GetCurrentThreadId);
+  //result  := IntToStr(Windows.GetCurrentThreadId);
+  result  := IntToStr(TThread.Current.ThreadID);
 end;
 
 {$IFEND}
