@@ -1047,11 +1047,12 @@ type
 implementation
 
 uses
-{$IF Defined(ANDROID) or Defined(IOS)}
-  //Posix.Stdio,
+
+{$IFDEF MSWINDOWS}
+windows,
 {$ELSE}
-  //Windows,
-{$IFEND}
+Posix.Stdio,
+{$ENDIF}
 
 {$IF CompilerVersion >= 24.0 }
   System.TypInfo, System.Math, System.DateUtils,
@@ -1075,7 +1076,18 @@ begin
   result := TTimeZone.Local.ToUniversalTime(Now);
 end;
 
-{$IF Defined(ANDROID) or Defined(IOS)}
+{$IFDEF MSWINDOWS}
+function internalGetCurrentProcessId : String;
+begin
+  result := IntToStr(Windows.GetCurrentProcessId);
+end;
+
+function internalGetCurrentThreadId : String;
+begin
+  result  := IntToStr(Windows.GetCurrentThreadId);
+  //result  := IntToStr(TThread.Current.ThreadID);
+end;
+{$ELSE}
 function internalGetCurrentProcessId : String;
 begin
   //result  := Application.Title;
@@ -1087,22 +1099,7 @@ begin
   //result  := IntToStr(TThread.Current.ThreadID);
   result  := '1';
 end;
-
-{$ELSE}
-
-function internalGetCurrentProcessId : String;
-begin
-  //result := IntToStr(Windows.GetCurrentProcessId);
-  result := '';
-end;
-
-function internalGetCurrentThreadId : String;
-begin
-  //result  := IntToStr(Windows.GetCurrentThreadId);
-  result  := IntToStr(TThread.Current.ThreadID);
-end;
-
-{$IFEND}
+{$ENDIF}
 
 function isIPv4 : Boolean;
 var
