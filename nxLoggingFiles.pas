@@ -320,7 +320,7 @@ type
     fPort               : TIdThreadSafeInteger;
     fUsername           : TIdThreadSafeString;
     fPassword           : TIdThreadSafeString;
-    fFilters            : TIdThreadSafeList;
+    fFilters            : TFMThreadSafeList;
     fEncoding           : TEncoding;
     fTCPClient          : TIdTCPClient;
     fWatchThread        : TNxLogTCPThread;
@@ -354,7 +354,7 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
-    procedure assignFilters(aFilters : TList);
+    procedure assignFilters(aFilters : TFMList);
     function  getMachineIdents(aToStrings : TStrings; aUsername : String = ''; aPassword : String = '') : Boolean; virtual;
     function  getApplicationIds(aToStrings : TStrings; aUsername : String = ''; aPassword : String = '') : Boolean; virtual;
   published
@@ -1866,7 +1866,7 @@ begin
   fPort         := TIdThreadSafeInteger.Create;
   fUsername     := TIdThreadSafeString.Create;
   fPassword     := TIdThreadSafeString.Create;
-  fFilters      := TIdThreadSafeList.Create;
+  fFilters      := TFMThreadSafeList.Create;
   fHostname.Value := '';
   fPort.Value     := 0;
   fUsername.Value := '';
@@ -1895,7 +1895,7 @@ begin
   inherited Destroy;
 end;
 
-procedure TNxLogTCP.assignFilters(aFilters : TList);
+procedure TNxLogTCP.assignFilters(aFilters : TFMList);
 var i     : Integer;
     fltrA : TNxLoggerMessageFilter;
     fltrB : TNxLoggerMessageFilter;
@@ -1906,7 +1906,7 @@ begin
   begin
     for i := 0 to aFilters.Count - 1 do
     begin
-      fltrA := aFilters[i];
+      fltrA := TNxLoggerMessageFilter(aFilters[i]);
       cc    := fltrA.ClassType;
       fltrB := TNxLoggerMessageFilter(cc.NewInstance);
       fltrB.Create;
@@ -2037,13 +2037,13 @@ begin
 end;
 
 procedure TNxLogTCP.clearFilters;
-var lst : TList; i  : Integer; cf : nxLogging.TNxLoggerMessageFilter;
+var lst : TFMList; i  : Integer; cf : nxLogging.TNxLoggerMessageFilter;
 begin
   lst := fFilters.LockList;
   try
     for i := 0 to lst.Count - 1 do
     begin
-      cf  := lst[i];
+      cf  := nxLogging.TNxLoggerMessageFilter(lst[i]);
       lst[i]  := nil;
       FreeAndNil(cf);
     end;
@@ -2093,7 +2093,7 @@ begin
 end;
 
 function  TNxLogTCP.getFiltersAsText  : String;
-var lst : TList; i  : Integer;
+var lst : TFMList; i  : Integer;
     cf : nxLogging.TNxLoggerMessageFilter;
     s  : TStringStream;
     w  : TWriter;
@@ -2109,7 +2109,7 @@ begin
       w.FlushBuffer;
       for i := 0 to lst.Count - 1 do
       begin
-        cf  := lst[i];
+        cf  := nxLogging.TNxLoggerMessageFilter(lst[i]);
         w.WriteString(cf.ClassName);
         w.FlushBuffer;
         cf.saveToStream(s);
