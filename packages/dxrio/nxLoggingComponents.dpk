@@ -28,14 +28,14 @@ package nxLoggingComponents;
 {$RUNONLY}
 {$IMPLICITBUILD ON}
 
-rrequires
+requires
   rtl,
   IndySystem,
   IndyProtocols,
   IndyCore;
 
-ncontains
+contains
   nxLoggingFiles in '..\..\nxLoggingFiles.pas',
   nxLogging in '..\..\nxLogging.pas';
 
-.
+end.
