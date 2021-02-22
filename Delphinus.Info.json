@@ -9,7 +9,7 @@
           "file": "LICENSE"
         }
     ],
-    "platforms": "Win32;Win64",
+    "platforms": "Win32;Win64;Android",
     "package_compiler_min": 24,
     "package_compiler_max": 27,
     "compiler_min": 24,
