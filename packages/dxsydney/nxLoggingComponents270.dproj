@@ -1,13 +1,13 @@
 ﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <PropertyGroup>
         <ProjectGuid>{93810AEB-35C3-44DD-851A-5686088337BA}</ProjectGuid>
-        <MainSource>nxLoggingComponents260.dpk</MainSource>
-        <ProjectVersion>18.8</ProjectVersion>
+        <MainSource>nxLoggingComponents270.dpk</MainSource>
+        <ProjectVersion>19.0</ProjectVersion>
         <FrameworkType>FMX</FrameworkType>
         <Base>True</Base>
         <Config Condition="'$(Config)'==''">Debug</Config>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
-        <TargetedPlatforms>33879</TargetedPlatforms>
+        <TargetedPlatforms>33811</TargetedPlatforms>
         <AppType>Package</AppType>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
@@ -23,11 +23,6 @@
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='iOSDevice32' and '$(Base)'=='true') or '$(Base_iOSDevice32)'!=''">
-        <Base_iOSDevice32>true</Base_iOSDevice32>
-        <CfgParent>Base</CfgParent>
-        <Base>true</Base>
-    </PropertyGroup>
     <PropertyGroup Condition="('$(Platform)'=='iOSDevice64' and '$(Base)'=='true') or '$(Base_iOSDevice64)'!=''">
         <Base_iOSDevice64>true</Base_iOSDevice64>
         <CfgParent>Base</CfgParent>
@@ -35,11 +30,6 @@
     </PropertyGroup>
     <PropertyGroup Condition="('$(Platform)'=='iOSSimulator' and '$(Base)'=='true') or '$(Base_iOSSimulator)'!=''">
         <Base_iOSSimulator>true</Base_iOSSimulator>
-        <CfgParent>Base</CfgParent>
-        <Base>true</Base>
-    </PropertyGroup>
-    <PropertyGroup Condition="('$(Platform)'=='OSX32' and '$(Base)'=='true') or '$(Base_OSX32)'!=''">
-        <Base_OSX32>true</Base_OSX32>
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
@@ -56,6 +46,24 @@
     <PropertyGroup Condition="'$(Config)'=='Debug' or '$(Cfg_1)'!=''">
         <Cfg_1>true</Cfg_1>
         <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Android' and '$(Cfg_1)'=='true') or '$(Cfg_1_Android)'!=''">
+        <Cfg_1_Android>true</Cfg_1_Android>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Android64' and '$(Cfg_1)'=='true') or '$(Cfg_1_Android64)'!=''">
+        <Cfg_1_Android64>true</Cfg_1_Android64>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='iOSDevice64' and '$(Cfg_1)'=='true') or '$(Cfg_1_iOSDevice64)'!=''">
+        <Cfg_1_iOSDevice64>true</Cfg_1_iOSDevice64>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
@@ -75,6 +83,24 @@
         <CfgParent>Base</CfgParent>
         <Base>true</Base>
     </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Android' and '$(Cfg_2)'=='true') or '$(Cfg_2_Android)'!=''">
+        <Cfg_2_Android>true</Cfg_2_Android>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Android64' and '$(Cfg_2)'=='true') or '$(Cfg_2_Android64)'!=''">
+        <Cfg_2_Android64>true</Cfg_2_Android64>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='iOSDevice64' and '$(Cfg_2)'=='true') or '$(Cfg_2_iOSDevice64)'!=''">
+        <Cfg_2_iOSDevice64>true</Cfg_2_iOSDevice64>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
     <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
         <Cfg_2_Win32>true</Cfg_2_Win32>
         <CfgParent>Cfg_2</CfgParent>
@@ -89,23 +115,23 @@
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
         <RuntimeOnlyPackage>true</RuntimeOnlyPackage>
-        <DCC_BplOutput>..\..\..\lib\dxrio\bpl\$(Platform)\$(Config)</DCC_BplOutput>
-        <DCC_DcpOutput>..\..\..\lib\dxrio\dcp\$(Platform)\$(Config)</DCC_DcpOutput>
+        <DCC_BplOutput>..\..\..\lib\dxsydney\bpl\$(Platform)\$(Config)</DCC_BplOutput>
+        <DCC_DcpOutput>..\..\..\lib\dxsydney\dcp\$(Platform)\$(Config)</DCC_DcpOutput>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
-        <SanitizedProjectName>nxLoggingComponents260</SanitizedProjectName>
+        <SanitizedProjectName>nxLoggingComponents270</SanitizedProjectName>
         <GenPackage>true</GenPackage>
         <DCC_CBuilderOutput>All</DCC_CBuilderOutput>
         <GenDll>true</GenDll>
-        <DCC_DcuOutput>..\..\..\lib\dxrio\dcu\$(Platform)\$(Config)</DCC_DcuOutput>
+        <DCC_DcuOutput>..\..\..\lib\dxsydney\dcu\$(Platform)\$(Config)</DCC_DcuOutput>
         <DCC_ExeOutput>.\$(Platform)\$(Config)</DCC_ExeOutput>
         <DCC_E>false</DCC_E>
         <DCC_N>false</DCC_N>
         <DCC_S>false</DCC_S>
         <DCC_F>false</DCC_F>
         <DCC_K>false</DCC_K>
-        <DCC_BpiOutput>..\..\..\lib\dxrio\dcu\$(Platform)\$(Config)</DCC_BpiOutput>
-        <DCC_HppOutput>..\..\..\lib\dxrio\dcu\$(Platform)\$(Config)</DCC_HppOutput>
-        <DCC_ObjOutput>..\..\..\lib\dxrio\dcu\$(Platform)\$(Config)</DCC_ObjOutput>
+        <DCC_BpiOutput>..\..\..\lib\dxsydney\dcu\$(Platform)\$(Config)</DCC_BpiOutput>
+        <DCC_HppOutput>..\..\..\lib\dxsydney\dcu\$(Platform)\$(Config)</DCC_HppOutput>
+        <DCC_ObjOutput>..\..\..\lib\dxsydney\dcu\$(Platform)\$(Config)</DCC_ObjOutput>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Android)'!=''">
         <VerInfo_Build>1</VerInfo_Build>
@@ -126,18 +152,9 @@
         <DCC_UsePackage>rtl;IndySystem;IndyProtocols;IndyCore;$(DCC_UsePackage);$(DCC_UsePackage)</DCC_UsePackage>
         <DCC_CBuilderOutput>None</DCC_CBuilderOutput>
     </PropertyGroup>
-    <PropertyGroup Condition="'$(Base_iOSDevice32)'!=''">
-        <VerInfo_UIDeviceFamily>iPhoneAndiPad</VerInfo_UIDeviceFamily>
-        <VerInfo_Keys>CFBundleName=$(MSBuildProjectName);CFBundleDevelopmentRegion=en;CFBundleDisplayName=$(MSBuildProjectName);CFBundleIdentifier=$(MSBuildProjectName);CFBundleInfoDictionaryVersion=7.1;CFBundleVersion=1.0.0.0;CFBundlePackageType=APPL;CFBundleSignature=????;LSRequiresIPhoneOS=true;CFBundleAllowMixedLocalizations=YES;CFBundleExecutable=$(MSBuildProjectName);UIDeviceFamily=iPhone &amp; iPad;CFBundleResourceSpecification=ResourceRules.plist;NSLocationAlwaysUsageDescription=The reason for accessing the location information of the user;NSLocationWhenInUseUsageDescription=The reason for accessing the location information of the user;FMLocalNotificationPermission=false;UIBackgroundModes=;NSContactsUsageDescription=The reason for accessing the contacts;NSPhotoLibraryUsageDescription=The reason for accessing the photo library;NSCameraUsageDescription=The reason for accessing the camera;CFBundleShortVersionString=1.0.0;NSPhotoLibraryAddUsageDescription=The reason for adding to the photo library;NSFaceIDUsageDescription=The reason for accessing the face id;NSLocationAlwaysAndWhenInUseUsageDescription=The reason for accessing the location information of the user;NSMicrophoneUsageDescription=The reason for accessing the microphone;NSSiriUsageDescription=The reason for accessing Siri;ITSAppUsesNonExemptEncryption=false</VerInfo_Keys>
-        <VerInfo_BundleId>$(MSBuildProjectName)</VerInfo_BundleId>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
-        <BT_BuildType>Debug</BT_BuildType>
-        <DCC_UsePackage>rtl;IndySystem;IndyProtocols;IndyCore;$(DCC_UsePackage)</DCC_UsePackage>
-        <DCC_CBuilderOutput>None</DCC_CBuilderOutput>
-    </PropertyGroup>
     <PropertyGroup Condition="'$(Base_iOSDevice64)'!=''">
         <VerInfo_UIDeviceFamily>iPhoneAndiPad</VerInfo_UIDeviceFamily>
-        <VerInfo_Keys>CFBundleName=$(MSBuildProjectName);CFBundleDevelopmentRegion=en;CFBundleDisplayName=$(MSBuildProjectName);CFBundleIdentifier=$(MSBuildProjectName);CFBundleInfoDictionaryVersion=7.1;CFBundleVersion=1.0.0.0;CFBundlePackageType=APPL;CFBundleSignature=????;LSRequiresIPhoneOS=true;CFBundleAllowMixedLocalizations=YES;CFBundleExecutable=$(MSBuildProjectName);UIDeviceFamily=iPhone &amp; iPad;CFBundleResourceSpecification=ResourceRules.plist;NSLocationAlwaysUsageDescription=The reason for accessing the location information of the user;NSLocationWhenInUseUsageDescription=The reason for accessing the location information of the user;FMLocalNotificationPermission=false;UIBackgroundModes=;NSContactsUsageDescription=The reason for accessing the contacts;NSPhotoLibraryUsageDescription=The reason for accessing the photo library;NSCameraUsageDescription=The reason for accessing the camera;CFBundleShortVersionString=1.0.0;NSPhotoLibraryAddUsageDescription=The reason for adding to the photo library;NSFaceIDUsageDescription=The reason for accessing the face id;NSLocationAlwaysAndWhenInUseUsageDescription=The reason for accessing the location information of the user;NSMicrophoneUsageDescription=The reason for accessing the microphone;NSSiriUsageDescription=The reason for accessing Siri;ITSAppUsesNonExemptEncryption=false</VerInfo_Keys>
+        <VerInfo_Keys>CFBundleName=$(MSBuildProjectName);CFBundleDevelopmentRegion=en;CFBundleDisplayName=$(MSBuildProjectName);CFBundleIdentifier=$(MSBuildProjectName);CFBundleInfoDictionaryVersion=7.1;CFBundleVersion=1.0.0.0;CFBundlePackageType=APPL;CFBundleSignature=????;LSRequiresIPhoneOS=true;CFBundleAllowMixedLocalizations=YES;CFBundleExecutable=$(MSBuildProjectName);UIDeviceFamily=iPhone &amp; iPad;CFBundleResourceSpecification=ResourceRules.plist;NSLocationAlwaysUsageDescription=The reason for accessing the location information of the user;NSLocationWhenInUseUsageDescription=The reason for accessing the location information of the user;FMLocalNotificationPermission=false;UIBackgroundModes=;NSContactsUsageDescription=The reason for accessing the contacts;NSPhotoLibraryUsageDescription=The reason for accessing the photo library;NSCameraUsageDescription=The reason for accessing the camera;CFBundleShortVersionString=1.0.0;NSPhotoLibraryAddUsageDescription=The reason for adding to the photo library;NSFaceIDUsageDescription=The reason for accessing the face id;NSLocationAlwaysAndWhenInUseUsageDescription=The reason for accessing the location information of the user;NSMicrophoneUsageDescription=The reason for accessing the microphone;NSSiriUsageDescription=The reason for accessing Siri;ITSAppUsesNonExemptEncryption=false;NSBluetoothAlwaysUsageDescription=The reason for accessing bluetooth;NSBluetoothPeripheralUsageDescription=The reason for accessing bluetooth peripherals;NSCalendarsUsageDescription=The reason for accessing the calendar data;NSRemindersUsageDescription=The reason for accessing the reminders;NSMotionUsageDescription=The reason for accessing the accelerometer;NSSpeechRecognitionUsageDescription=The reason for requesting to send user data to Apple&apos;s speech recognition servers</VerInfo_Keys>
         <VerInfo_BundleId>$(MSBuildProjectName)</VerInfo_BundleId>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <BT_BuildType>Debug</BT_BuildType>
@@ -147,11 +164,6 @@
     <PropertyGroup Condition="'$(Base_iOSSimulator)'!=''">
         <DCC_UsePackage>rtl;IndySystem;IndyProtocols;IndyCore;$(DCC_UsePackage)</DCC_UsePackage>
         <DCC_CBuilderOutput>None</DCC_CBuilderOutput>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(Base_OSX32)'!=''">
-        <VerInfo_Keys>CFBundleName=$(MSBuildProjectName);CFBundleDisplayName=$(MSBuildProjectName);CFBundleIdentifier=$(MSBuildProjectName);CFBundleVersion=1.0.0;CFBundlePackageType=APPL;CFBundleSignature=????;CFBundleAllowMixedLocalizations=YES;CFBundleExecutable=$(MSBuildProjectName);NSHighResolutionCapable=true;LSApplicationCategoryType=public.app-category.utilities;NSContactsUsageDescription=The reason for accessing the contacts;CFBundleShortVersionString=1.0.0;NSLocationUsageDescription=The reason for accessing the location information of the user</VerInfo_Keys>
-        <BT_BuildType>Debug</BT_BuildType>
-        <DCC_UsePackage>rtl;IndySystem;IndyProtocols;IndyCore;$(DCC_UsePackage)</DCC_UsePackage>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
@@ -177,12 +189,22 @@
         <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Android)'!=''">
+        <VerInfo_Build>1</VerInfo_Build>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Android64)'!=''">
+        <VerInfo_Build>1</VerInfo_Build>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_iOSDevice64)'!=''">
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_UIDeviceFamily>iPhoneAndiPad</VerInfo_UIDeviceFamily>
+        <VerInfo_BundleId>$(MSBuildProjectName)</VerInfo_BundleId>
+    </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
         <DCC_CBuilderOutput>None</DCC_CBuilderOutput>
-        <DCC_DcuOutput>..\..\..\lib\dxrio\dcu\$(Platform)\$(Config)</DCC_DcuOutput>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
         <VerInfo_Locale>1033</VerInfo_Locale>
@@ -193,6 +215,17 @@
         <DCC_Define>RELEASE;$(DCC_Define)</DCC_Define>
         <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
         <DCC_DebugInformation>0</DCC_DebugInformation>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Android)'!=''">
+        <VerInfo_Build>1</VerInfo_Build>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Android64)'!=''">
+        <VerInfo_Build>1</VerInfo_Build>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_iOSDevice64)'!=''">
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_UIDeviceFamily>iPhoneAndiPad</VerInfo_UIDeviceFamily>
+        <VerInfo_BundleId>$(MSBuildProjectName)</VerInfo_BundleId>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <VerInfo_Locale>1033</VerInfo_Locale>
@@ -212,7 +245,7 @@
         <DCCReference Include="IndyProtocols.dcp"/>
         <DCCReference Include="IndyCore.dcp"/>
         <DCCReference Include="..\..\nxLoggingFiles.pas"/>
-        <DCCReference Include="..\..\nxLogging.pas"/>        
+        <DCCReference Include="..\..\nxLogging.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -231,9 +264,12 @@
         <BorlandProject>
             <Delphi.Personality>
                 <Source>
-                    <Source Name="MainSource">nxLoggingComponents260.dpk</Source>
+                    <Source Name="MainSource">nxLoggingComponents270.dpk</Source>
                 </Source>
-                <Excluded_Packages/>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k270.bpl">Microsoft Office 2000 Beispiele für gekapselte Komponenten für Automatisierungsserver</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp270.bpl">Microsoft Office XP Beispiele für gekapselte Komponenten für Automation Server</Excluded_Packages>
+                </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="3">
                 <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
@@ -241,15 +277,15 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\lib\bpl\Win32\Release\nxLoggingComponents260.bpl" Configuration="Release" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\..\lib\dxrio\bpl\Win32\Debug\nxLoggingComponents270.bpl" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>nxLoggingComponents260.bpl</RemoteName>
+                        <RemoteName>nxLoggingComponents270.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\..\..\lib\dxrio\bpl\Win32\Debug\nxLoggingComponents260.bpl" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\lib\bpl\Win32\Release\nxLoggingComponents270.bpl" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win32">
-                        <RemoteName>nxLoggingComponents260.bpl</RemoteName>
+                        <RemoteName>nxLoggingComponents270.bpl</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -772,6 +808,16 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
+                <DeployClass Name="iPad_Launch2x">
+                    <Platform Name="iOSDevice64">
+                        <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
                 <DeployClass Name="iPad_Launch768">
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
@@ -791,6 +837,16 @@
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPad_LaunchDark2x">
+                    <Platform Name="iOSDevice64">
+                        <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -893,6 +949,16 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
+                <DeployClass Name="iPhone_Launch2x">
+                    <Platform Name="iOSDevice64">
+                        <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
                 <DeployClass Name="iPhone_Launch320">
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
@@ -901,6 +967,16 @@
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_Launch3x">
+                    <Platform Name="iOSDevice64">
+                        <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -948,6 +1024,26 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
+                <DeployClass Name="iPhone_LaunchDark2x">
+                    <Platform Name="iOSDevice64">
+                        <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
+                <DeployClass Name="iPhone_LaunchDark3x">
+                    <Platform Name="iOSDevice64">
+                        <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <RemoteDir>..\$(PROJECTNAME).launchscreen\Assets\LaunchScreenImage.imageset</RemoteDir>
+                        <Operation>1</Operation>
+                    </Platform>
+                </DeployClass>
                 <DeployClass Name="ProjectAndroidManifest">
                     <Platform Name="Android">
                         <Operation>1</Operation>
@@ -969,6 +1065,7 @@
                 <DeployClass Name="ProjectiOSDeviceResourceRules"/>
                 <DeployClass Name="ProjectiOSEntitlements"/>
                 <DeployClass Name="ProjectiOSInfoPList"/>
+                <DeployClass Name="ProjectiOSLaunchScreen"/>
                 <DeployClass Name="ProjectiOSResource">
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
@@ -1072,10 +1169,8 @@
             <Platforms>
                 <Platform value="Android">True</Platform>
                 <Platform value="Android64">True</Platform>
-                <Platform value="iOSDevice32">True</Platform>
                 <Platform value="iOSDevice64">True</Platform>
                 <Platform value="iOSSimulator">False</Platform>
-                <Platform value="OSX32">True</Platform>
                 <Platform value="Win32">True</Platform>
                 <Platform value="Win64">True</Platform>
             </Platforms>
