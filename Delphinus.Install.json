@@ -1,0 +1,40 @@
+ {
+	 "search_pathes": 
+	[
+		{
+			"pathes": ".",
+			"platforms": "Win32;Win64"
+		}
+	],	 
+	"browsing_pathes": 
+	[
+		{
+			"pathes": ".",
+			"platforms": "Win32;Win64"
+		}
+	],
+	
+	"source_folders":
+	[
+		{
+			"folder": ".",
+			"filter": "*;*.*",
+			"recursive": true
+		}
+	],
+	"projects":
+	[
+		{
+			"project": "packages\\dxberlin\\nxLoggingComponents240.dproj",
+      			"compiler": 31
+		},
+    		{
+			"project": "packages\\dxrio\\nxLoggingComponents260.dproj",
+      			"compiler": 33
+		},
+    		{
+			"project": "packages\\dxsydney\\nxLoggingComponents270.dproj",
+      			"compiler": 34
+		}
+	]
+}
