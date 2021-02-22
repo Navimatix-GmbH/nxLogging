@@ -2,15 +2,15 @@
  ***** Dateiname               : nxLogging.pas ******************************
  ***** Autor                   : Navimatix GmbH, Matthias Heunecke **********
  ***** Erstellt am             : 08.07.2012 *********************************
- ***** Letzte Änderung         : 08.10.2019 *********************************
- ***** Zugehörigkeit           : nxLogging **********************************
- ***** Beschreibung            : Enthält Klassen, Komponenten, Funktionen ***
- ******************************* für das Logging von Hinweisen, Fehlern,...**
+ ***** Letzte Ã„nderung         : 08.10.2019 *********************************
+ ***** ZugehÃ¶rigkeit           : nxLogging **********************************
+ ***** Beschreibung            : EnthÃ¤lt Klassen, Komponenten, Funktionen ***
+ ******************************* fÃ¼r das Logging von Hinweisen, Fehlern,...**
  ****************************************************************************
  ***** Gruppe                  : Freeware ***********************************
  ******************************* Freie Nutzung privat und kommerziell *******
  ****************************************************************************
- ***** Version                 : 1.4.2.3 ************************************
+ ***** Version                 : 1.4.3.1 ************************************
  ****************************************************************************
  ***** Status                  : aktiv **************************************
  ****************************************************************************
@@ -51,14 +51,14 @@ const
 
 
   /// <summary>
-  /// <para>Diese Konstante gibt die maximale Anzahl der zwischenzuspeichernden (auf Clientseite) Logeinträge an.</para>
-  /// <para>Beim Überlauf dieses Puffers gehen die weiteren Logeinträge verloren.</para>
+  /// <para>Diese Konstante gibt die maximale Anzahl der zwischenzuspeichernden (auf Clientseite) LogeintrÃ¤ge an.</para>
+  /// <para>Beim Ãœberlauf dieses Puffers gehen die weiteren LogeintrÃ¤ge verloren.</para>
   /// </summary>
-  IC_DEFAULTMAXTCPENTRIES           = 5000;   // Maximale Anzahl an Logeinträgen
+  IC_DEFAULTMAXTCPENTRIES           = 5000;   // Maximale Anzahl an LogeintrÃ¤gen
 
-                                              // für den TCP-Puffer
+                                              // fÃ¼r den TCP-Puffer
   /// <summary>
-  /// <para>Gibt den Namensteil für eine Logdatei im Modus "NXLFS_SINGLEFILE" an.</para>
+  /// <para>Gibt den Namensteil fÃ¼r eine Logdatei im Modus "NXLFS_SINGLEFILE" an.</para>
   /// </summary>
   SC_ALLFILETAIL                    = 'all';  // Additional Name-Part for single logfiles
 
@@ -75,7 +75,7 @@ const
   SC_FILEFROM                       = 'from'; // Additional Name-Part for renamed logfiles
 
 
-  // Konstanten für nxLogProtokoll-TCP...
+  // Konstanten fÃ¼r nxLogProtokoll-TCP...
   NXLOGPTCP_OK                            = 200;
   NXLOGPTCP_BADREQUEST                    = 400;
   NXLOGPTCP_UNAUTHORIZED                  = 401;
@@ -104,18 +104,18 @@ type
 
   ///  <summary>
   ///  <para>
-  ///  Die Werte dieser Enumeration definieren für einen Logentry die Kategorie, zu dieser gehört.
+  ///  Die Werte dieser Enumeration definieren fÃ¼r einen Logentry die Kategorie, zu dieser gehÃ¶rt.
   ///  Die Kategorie kann optional bei den Methoden zum Loggen angegeben werden, default ist NONE.
   ///  </para>
   ///  </summary>
   TNxLoggerCategory = (   NXLCAT_NONE,
                           NXLCAT_OPTIONS,      // Fehler bei den Einstellungen
-                          NXLCAT_RUNNING,      // Fehler während des "normalen" Laufens
-                          NXLCAT_CALCULATING,  // Fehler während eine komplexen Rechenoperation.
-                          NXLCAT_FASTRUNNING,  // Fehler während des Laufens, der jedoch extrem oft, oder ständig auftauchen kann.
+                          NXLCAT_RUNNING,      // Fehler wÃ¤hrend des "normalen" Laufens
+                          NXLCAT_CALCULATING,  // Fehler wÃ¤hrend eine komplexen Rechenoperation.
+                          NXLCAT_FASTRUNNING,  // Fehler wÃ¤hrend des Laufens, der jedoch extrem oft, oder stÃ¤ndig auftauchen kann.
                           NXLCAT_STARTUP,      // Fehler beim Erzeugen von Dingen
-                          NXLCAT_SHUTDOWN,     // Fehler beim Aufräumen
-                          NXLCAT_REFERENCE,    // ungültige, falsche Objektreferenz
+                          NXLCAT_SHUTDOWN,     // Fehler beim AufrÃ¤umen
+                          NXLCAT_REFERENCE,    // ungÃ¼ltige, falsche Objektreferenz
                           NXLCAT_COM,          // Fehler im COM-Server
                           NXLCAT_DCOM,         // Fehler im DCOM-Server
                           NXLCAT_PLUGIN        // Fehler in einem Plugin
@@ -124,17 +124,17 @@ type
 
   ///  <summary>
   ///  <para>
-  ///  Die Werte dieser Enumeration definieren für einen Logentry das Level, zu dem dieser gehört.
+  ///  Die Werte dieser Enumeration definieren fÃ¼r einen Logentry das Level, zu dem dieser gehÃ¶rt.
   ///  Das Level ist nicht optional und muss immer mit angegeben werden.
   ///  Die Methoden trace(), info(), error(), etc... geben das entsprechende Level bereits vor.
   ///  </para>
   ///  </summary>
   TNxLoggerLevel    = (   NXLL_TRACE,       // ganz zartes Fehlerchen.. :-)
                           NXLL_DEBUG,       // Fehlerchen zum/beim Debuggen
-                          NXLL_INFO,        // Information über Unregelmäßigkeit
-                          NXLL_WARN,        // Warnung, es ist etwas unschönes passiert, aber keine Panik..
+                          NXLL_INFO,        // Information Ã¼ber UnregelmÃ¤ÃŸigkeit
+                          NXLL_WARN,        // Warnung, es ist etwas unschÃ¶nes passiert, aber keine Panik..
                           NXLL_ERROR,       // kritischer Fehler, kann Absturz zur Folge haben
-                          NXLL_FATAL        // fataler Fehler, eigentlich hat es keinen Zweck mehr, Programm töten !
+                          NXLL_FATAL        // fataler Fehler, eigentlich hat es keinen Zweck mehr, Programm tÃ¶ten !
                       );
 
 
@@ -199,7 +199,7 @@ type
     /// <param name="aApplicationId">Definiert die ID der loggenden Anwendung.</param>
     /// <param name="aInstanceId">Definiert die ID der loggenden Instanz (laufendes Programm, wenn mehrere).</param>
     /// <param name="aLogUser">Definiert die ID Users unter dessen Namen geloggt wird.</param>
-    /// <remarks>Die Paremeter sind erste Vorgaben, über die Properties können die Inhalte geändert werden</remarks>
+    /// <remarks>Die Paremeter sind erste Vorgaben, Ã¼ber die Properties kÃ¶nnen die Inhalte geÃ¤ndert werden</remarks>
     constructor Create(const aApplicationId, aInstanceId, aLogUser : String; aLevel : TNxLoggerLevel; const aMessage : String); overload; virtual;
     constructor Create(const aApplicationId, aInstanceId, aLogUser : String; aLevel : TNxLoggerLevel; const aModule, aMessage : String; const aCategory, aLanguage : String; const aException : Exception); overload; virtual;
     constructor Create(const aApplicationId, aInstanceId, aLogUser : String; aLevel : TNxLoggerLevel; const aModule, aMessage : String; const aCategory, aLanguage, aThreadId : String; const aException : Exception); overload; virtual;
@@ -240,15 +240,15 @@ type
 
   ///  <summary>
   ///  <para>
-  ///  Das ist die Grundklasse für alle Filter. Weitere Filter müssen von dieser Klasse erben.
+  ///  Das ist die Grundklasse fÃ¼r alle Filter. Weitere Filter mÃ¼ssen von dieser Klasse erben.
   ///  </para>
   ///  </summary>
   ///  <remarks>
   ///  <para>
-  ///  Die Methode match() muss überschrieben werden. Hier wird per Rückgabe definiert, ob die übergebene Nachricht zum Filter passt oder nicht.
+  ///  Die Methode match() muss Ã¼berschrieben werden. Hier wird per RÃ¼ckgabe definiert, ob die Ã¼bergebene Nachricht zum Filter passt oder nicht.
   ///  </para>
   ///  <para>
-  ///  Mit loadFromStream() und saveToStream erhält ein Filter die Möglichkeit persistent zu bleiben, oder übermittelt zu werden.
+  ///  Mit loadFromStream() und saveToStream erhÃ¤lt ein Filter die MÃ¶glichkeit persistent zu bleiben, oder Ã¼bermittelt zu werden.
   ///  </para>
   ///  </remarks>
   TNxLoggerMessageFilter = class(TPersistent)
@@ -262,8 +262,8 @@ type
 
   ///  <summary>
   ///  <para>
-  ///  Dieser Filter entscheidet nach einer Menge von LogLeveln. Ist das Loglevel der übergebenen Nachricht in der Menge enthalten, so
-  ///  liefert match() true zurück.
+  ///  Dieser Filter entscheidet nach einer Menge von LogLeveln. Ist das Loglevel der Ã¼bergebenen Nachricht in der Menge enthalten, so
+  ///  liefert match() true zurÃ¼ck.
   ///  </para>
   ///  </summary>
   ///  <remarks>
@@ -304,9 +304,9 @@ type
 
   ///  <summary>
   ///  <para>
-  ///  Dieser Filter ist eine Grundklasse für alle, welche nach einem gegebenen Text entscheidet
-  ///  Die Grundklasse hält lediglich den zu testenden Text als Attribut und Property.
-  ///  Die abgeleiteten Klassen müssen die Methode match() überschreiben.
+  ///  Dieser Filter ist eine Grundklasse fÃ¼r alle, welche nach einem gegebenen Text entscheidet
+  ///  Die Grundklasse hÃ¤lt lediglich den zu testenden Text als Attribut und Property.
+  ///  Die abgeleiteten Klassen mÃ¼ssen die Methode match() Ã¼berschreiben.
   ///  </para>
   ///  </summary>
   ///  <remarks>
@@ -346,7 +346,7 @@ type
   ///  Testeigenschaft der Nachricht ist: <c>TNxLoggerMessage.LogModule</c>
   ///  </para>
   ///  <para>
-  ///  Der Textvergleich ist nicht case sensitive, Groß-Kleinschreibung ist egal.
+  ///  Der Textvergleich ist nicht case sensitive, GroÃŸ-Kleinschreibung ist egal.
   ///  </para>
   ///  </remarks>
   TNxLoggerMessageFilterModuleEquals = class(TNxLoggerMessageFilterByText)
@@ -366,7 +366,7 @@ type
   ///  Testeigenschaft der Nachricht ist: <c>TNxLoggerMessage.LogModule</c>
   ///  </para>
   ///  <para>
-  ///  Der Textvergleich ist nicht case sensitive, Groß-Kleinschreibung ist egal.
+  ///  Der Textvergleich ist nicht case sensitive, GroÃŸ-Kleinschreibung ist egal.
   ///  </para>
   ///  </remarks>
   TNxLoggerMessageFilterModuleStarting = class(TNxLoggerMessageFilterByText)
@@ -386,7 +386,7 @@ type
   ///  Testeigenschaft der Nachricht ist: <c>TNxLoggerMessage.LogModule</c>
   ///  </para>
   ///  <para>
-  ///  Der Textvergleich ist nicht case sensitive, Groß-Kleinschreibung ist egal.
+  ///  Der Textvergleich ist nicht case sensitive, GroÃŸ-Kleinschreibung ist egal.
   ///  </para>
   ///  </remarks>
   TNxLoggerMessageFilterModuleContains = class(TNxLoggerMessageFilterByText)
@@ -406,7 +406,7 @@ type
   ///  Testeigenschaft der Nachricht ist: <c>TNxLoggerMessage.LogMessage</c>
   ///  </para>
   ///  <para>
-  ///  Der Textvergleich ist nicht case sensitive, Groß-Kleinschreibung ist egal.
+  ///  Der Textvergleich ist nicht case sensitive, GroÃŸ-Kleinschreibung ist egal.
   ///  </para>
   ///  </remarks>
   TNxLoggerMessageFilterMessageEquals = class(TNxLoggerMessageFilterByText)
@@ -426,7 +426,7 @@ type
   ///  Testeigenschaft der Nachricht ist: <c>TNxLoggerMessage.LogMessage</c>
   ///  </para>
   ///  <para>
-  ///  Der Textvergleich ist nicht case sensitive, Groß-Kleinschreibung ist egal.
+  ///  Der Textvergleich ist nicht case sensitive, GroÃŸ-Kleinschreibung ist egal.
   ///  </para>
   ///  </remarks>
   TNxLoggerMessageFilterMessageStarting = class(TNxLoggerMessageFilterByText)
@@ -446,7 +446,7 @@ type
   ///  Testeigenschaft der Nachricht ist: <c>TNxLoggerMessage.LogMessage</c>
   ///  </para>
   ///  <para>
-  ///  Der Textvergleich ist nicht case sensitive, Groß-Kleinschreibung ist egal.
+  ///  Der Textvergleich ist nicht case sensitive, GroÃŸ-Kleinschreibung ist egal.
   ///  </para>
   ///  </remarks>
   TNxLoggerMessageFilterMessageContains = class(TNxLoggerMessageFilterByText)
@@ -458,7 +458,7 @@ type
   ///  <summary>
   ///  <para>
   ///  Dieser Filter ist ein Textfilter, er wird nicht direkt genutzt, ist die
-  ///  Basisklasse für alle Filter mit MachineIdent.
+  ///  Basisklasse fÃ¼r alle Filter mit MachineIdent.
   ///  Dabei muss der Text darin gleich zum Filtertext sein.
   ///  </para>
   ///  </summary>
@@ -467,7 +467,7 @@ type
   ///  Testeigenschaft der Nachricht ist: <c>TNxLoggerMessage.MachineIdent</c>
   ///  </para>
   ///  <para>
-  ///  Der Textvergleich ist nicht case sensitive, Groß-Kleinschreibung ist egal.
+  ///  Der Textvergleich ist nicht case sensitive, GroÃŸ-Kleinschreibung ist egal.
   ///  </para>
   ///  </remarks>
 
@@ -499,7 +499,7 @@ type
   ///  Testeigenschaft der Nachricht ist: <c>TNxLoggerMessage.MachineIdent</c>
   ///  </para>
   ///  <para>
-  ///  Der Textvergleich ist nicht case sensitive, Groß-Kleinschreibung ist egal.
+  ///  Der Textvergleich ist nicht case sensitive, GroÃŸ-Kleinschreibung ist egal.
   ///  </para>
   ///  </remarks>
 
@@ -520,7 +520,7 @@ type
   ///  Testeigenschaft der Nachricht ist: <c>TNxLoggerMessage.MachineIdent</c>
   ///  </para>
   ///  <para>
-  ///  Der Textvergleich ist nicht case sensitive, Groß-Kleinschreibung ist egal.
+  ///  Der Textvergleich ist nicht case sensitive, GroÃŸ-Kleinschreibung ist egal.
   ///  </para>
   ///  </remarks>
 
@@ -541,7 +541,7 @@ type
   ///  Testeigenschaft der Nachricht ist: <c>TNxLoggerMessage.MachineIdent</c>
   ///  </para>
   ///  <para>
-  ///  Der Textvergleich ist nicht case sensitive, Groß-Kleinschreibung ist egal.
+  ///  Der Textvergleich ist nicht case sensitive, GroÃŸ-Kleinschreibung ist egal.
   ///  </para>
   ///  </remarks>
 
@@ -562,7 +562,7 @@ type
   ///  Testeigenschaft der Nachricht ist: <c>TNxLoggerMessage.ApplicationId</c>
   ///  </para>
   ///  <para>
-  ///  Der Textvergleich ist nicht case sensitive, Groß-Kleinschreibung ist egal.
+  ///  Der Textvergleich ist nicht case sensitive, GroÃŸ-Kleinschreibung ist egal.
   ///  </para>
   ///  </remarks>
   TNxLoggerMessageFilterApplicationEquals = class(TNxLoggerMessageFilterByText)
@@ -581,7 +581,7 @@ type
   ///  Testeigenschaft der Nachricht ist: <c>TNxLoggerMessage.ApplicationId</c>
   ///  </para>
   ///  <para>
-  ///  Der Textvergleich ist nicht case sensitive, Groß-Kleinschreibung ist egal.
+  ///  Der Textvergleich ist nicht case sensitive, GroÃŸ-Kleinschreibung ist egal.
   ///  </para>
   ///  </remarks>
   TNxLoggerMessageFilterApplicationStarting = class(TNxLoggerMessageFilterByText)
@@ -600,7 +600,7 @@ type
   ///  Testeigenschaft der Nachricht ist: <c>TNxLoggerMessage.ApplicationId</c>
   ///  </para>
   ///  <para>
-  ///  Der Textvergleich ist nicht case sensitive, Groß-Kleinschreibung ist egal.
+  ///  Der Textvergleich ist nicht case sensitive, GroÃŸ-Kleinschreibung ist egal.
   ///  </para>
   ///  </remarks>
   TNxLoggerMessageFilterApplicationContains = class(TNxLoggerMessageFilterByText)
@@ -613,12 +613,12 @@ type
   ///  <para>
   ///  Das ist die Grundklasse aller LogFormater. Diese haben die Aufgabe, eine
   ///  Lognachricht nach bestimmten Kriterien zu formatieren. Entweder eine Lognachricht in
-  ///  einen String (formatMessage()), oder einen String zurück in eine Lognachricht (parseMessage()).
+  ///  einen String (formatMessage()), oder einen String zurÃ¼ck in eine Lognachricht (parseMessage()).
   ///  </para>
   ///  </summary>
   ///  <remarks>
   ///  <para>
-  ///  Die Klassenmethoden "convert***()" dienen der Umwandlung von Level, bzw. Kategorie in Strings und zurück.
+  ///  Die Klassenmethoden "convert***()" dienen der Umwandlung von Level, bzw. Kategorie in Strings und zurÃ¼ck.
   ///  </para>
   ///  </remarks>
   TNxLogFormater = class(TPersistent)
@@ -637,10 +637,10 @@ type
 
   ///  <summary>
   ///  <para>
-  ///  Dieser LogFormater dient als Grundlage für unbekannte Log-Formate.
+  ///  Dieser LogFormater dient als Grundlage fÃ¼r unbekannte Log-Formate.
   ///  Die einzelnen Werte einer Lognachricht werden eventuell mit "|" getrennt,
   ///  werden aber nicht danach getrennt.
-  ///  die Lognachrichten selbst müssen mit CR LF getrennt sein.
+  ///  die Lognachrichten selbst mÃ¼ssen mit CR LF getrennt sein.
   ///  </para>
   ///  <para>
   ///  Format: Die ganze Zeile geht in "Message"
@@ -649,7 +649,7 @@ type
   ///  <remarks>
   ///  <para>
   ///  LogFormater haben die Aufgabe, eine Lognachricht nach bestimmten Kriterien zu formatieren.
-  ///  Entweder eine Lognachricht in einen String (formatMessage()), oder einen String zurück in eine Lognachricht (parseMessage()).
+  ///  Entweder eine Lognachricht in einen String (formatMessage()), oder einen String zurÃ¼ck in eine Lognachricht (parseMessage()).
   ///  </para>
   ///  <para>
   ///  Es existieren jeweils Varianten zur Base64-kodierung der Teilwerte, ACHTUNG!
@@ -672,7 +672,7 @@ type
 
   ///  <summary>
   ///  <para>
-  ///  Dieser LogFormater dient als Standard, z.B. für Dateien.
+  ///  Dieser LogFormater dient als Standard, z.B. fÃ¼r Dateien.
   ///  Die einzelnen Werte einer Lognachricht werden jeweils mit "|" getrennt,
   ///  die Lognachrichten selbst mit CR LF.
   ///  </para>
@@ -683,7 +683,7 @@ type
   ///  <remarks>
   ///  <para>
   ///  LogFormater haben die Aufgabe, eine Lognachricht nach bestimmten Kriterien zu formatieren.
-  ///  Entweder eine Lognachricht in einen String (formatMessage()), oder einen String zurück in eine Lognachricht (parseMessage()).
+  ///  Entweder eine Lognachricht in einen String (formatMessage()), oder einen String zurÃ¼ck in eine Lognachricht (parseMessage()).
   ///  </para>
   ///  <para>
   ///  Es existieren jeweils Varianten zur Base64-kodierung der Teilwerte, ACHTUNG!
@@ -706,14 +706,14 @@ type
 
   ///  <summary>
   ///  <para>
-  ///  Dieser LogFormater dient zur Übermittlung von Lognachrichten per Netzwerk.
+  ///  Dieser LogFormater dient zur Ãœbermittlung von Lognachrichten per Netzwerk.
   ///  Die einzelnen Werte einer Lognachricht werden jeweils mit "|" getrennt,
   ///  die Lognachrichten selbst mit CR LF.
   ///  </para>
   ///  <para>
-  ///  Dieser Formater führt einen Wert "MachineIdent" neu ein, dieser soll einen
+  ///  Dieser Formater fÃ¼hrt einen Wert "MachineIdent" neu ein, dieser soll einen
   ///  eindeutigen Wert beinhalten, welcher den Logclient identifiziert, z.B. der Rechnername.
-  ///  Da hier die Lognachrichten per Netzwerk übertragen werden, ist es wichtig von wo diese kommen.
+  ///  Da hier die Lognachrichten per Netzwerk Ã¼bertragen werden, ist es wichtig von wo diese kommen.
   ///  </para>
   ///  <para>
   ///  Format: applicationid|timestamp|level.module|messagetext
@@ -726,12 +726,12 @@ type
   ///  </para>
   ///  <para>
   ///  Bei den format***()-Methoden wird der Wert "MachineIdent" mit in den String kodiert, da dieser beim Parsen auch
-  ///  verfügbar sein muss, gibt es die beiden zusätzlichen parse***()-Methoden mir den Rückgabeparametern "ResMachineIdent".
-  ///  Beim Aufruf wird hier der im String kodierte MachineIdent-Wert übergeben.
+  ///  verfÃ¼gbar sein muss, gibt es die beiden zusÃ¤tzlichen parse***()-Methoden mir den RÃ¼ckgabeparametern "ResMachineIdent".
+  ///  Beim Aufruf wird hier der im String kodierte MachineIdent-Wert Ã¼bergeben.
   ///  </para>
   ///  <para>
   ///  LogFormater haben die Aufgabe, eine Lognachricht nach bestimmten Kriterien zu formatieren.
-  ///  Entweder eine Lognachricht in einen String (formatMessage()), oder einen String zurück in eine Lognachricht (parseMessage()).
+  ///  Entweder eine Lognachricht in einen String (formatMessage()), oder einen String zurÃ¼ck in eine Lognachricht (parseMessage()).
   ///  </para>
   ///  </remarks>
   TNxLogFormaterTCP = class(TNxLogFormater)
@@ -1330,7 +1330,7 @@ begin
     DateSeparator:='.';
     TimeSeparator:=':';
     ListSeparator:=';';
-    CurrencyString:='€';
+    CurrencyString:='Â€';
     ShortDateFormat:='yyyy.MM.dd';//'dd.MM.yyyy';
     LongDateFormat:='dddd, d. MMMM yyyy';
     TimeAMString:='';
@@ -1351,7 +1351,7 @@ begin
     ShortMonthNames[12]:='Dez';
     LongMonthNames[1]:='Januar';
     LongMonthNames[2]:='Februar';
-    LongMonthNames[3]:='März';
+    LongMonthNames[3]:='MÃ¤rz';
     LongMonthNames[4]:='April';
     LongMonthNames[5]:='Mai';
     LongMonthNames[6]:='Juni';
@@ -3206,7 +3206,7 @@ var zs    : String;
         _wasbo  := false;
       end else
       begin
-        // Pufferüberlauf...
+        // PufferÃ¼berlauf...
         _wasbo  := true;
       end;
     finally
