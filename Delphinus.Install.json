@@ -3,14 +3,14 @@
 	[
 		{
 			"pathes": ".\\lib\\dxrio\\dcu\\$(Platform)\\$(Config);.\\lib\\dxberlin\\dcu\\$(Platform)\\$(Config);.\\lib\\dxsydney\\dcu\\($Platform)\\$(Config);",
-			"platforms": "Win32;Win64;"
+			"platforms": "Win32;Win64"
 		}
 	],	 
 	"browsing_pathes": 
 	[
 		{
 			"pathes": ".",
-			"platforms": "Win32;Win64;"
+			"platforms": "Win32;Win64"
 		}
 	],
 	
