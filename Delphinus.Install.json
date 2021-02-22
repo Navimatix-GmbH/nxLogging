@@ -12,6 +12,7 @@
 		{
 			"folder": ".",
 			"filter": "*;*.*"
+			"recursive":true
 		}
 	],
 	"projects":
