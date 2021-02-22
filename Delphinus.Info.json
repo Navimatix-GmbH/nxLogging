@@ -1,0 +1,18 @@
+{
+    "id": "{f61707ee-c91f-41ea-b25e-8f21dd47932c}",
+    "name": "nxLogging",
+    "picture": "logo.png",
+    "licenses":
+    [
+        {
+          "type": "CC0 Public Domain",
+          "file": "LICENSE"
+        }
+    ],
+    "platforms": "Win32;Win64",
+    "package_compiler_min": 24,
+    "package_compiler_max": 27,
+    "compiler_min": 24,
+    "compiler_max": 27,
+    "first_version": "1.4.3.1"
+}
