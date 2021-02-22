@@ -1,4 +1,11 @@
  {
+	 "search_pathes": 
+	[
+		{
+			"pathes": ".\\lib\\dxrio\\dcu\\$(Platform)\\$(Config);.\\lib\\dxberlin\\dcu\\$(Platform)\\$(Config);.\\lib\\dxsydney\\dcu\\($Platform)\\$(Config);",
+			"platforms": "Win32;Win64;OSX32;Android;IOSDevice32;IOSDevice64;Linux64"
+		}
+	],	 
 	"browsing_pathes": 
 	[
 		{
