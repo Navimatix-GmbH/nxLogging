@@ -11,7 +11,7 @@
 	[
 		{
 			"folder": ".",
-			"filter": "*;*.*"
+			"filter": "*;*.*",
 			"recursive":true
 		}
 	],
