@@ -26,15 +26,15 @@
 	[
 		{
 			"project": "packages\\dxberlin\\nxLoggingComponents240.dproj",
-      			"compiler": 24
+      			"compiler": 31
 		},
     		{
 			"project": "packages\\dxrio\\nxLoggingComponents260.dproj",
-      			"compiler": 26
+      			"compiler": 33
 		},
     		{
 			"project": "packages\\dxsydney\\nxLoggingComponents270.dproj",
-      			"compiler": 27
+      			"compiler": 34
 		}
 	]
 }
