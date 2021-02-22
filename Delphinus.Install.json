@@ -2,7 +2,7 @@
 	 "search_pathes": 
 	[
 		{
-			"pathes": ".\\lib\\dxrio\\dcu\\$(Platform)\\$(Config);.\\lib\\dxberlin\\dcu\\$(Platform)\\$(Config);.\\lib\\dxsydney\\dcu\\($Platform)\\$(Config);",
+			"pathes": ".",
 			"platforms": "Win32;Win64"
 		}
 	],	 
