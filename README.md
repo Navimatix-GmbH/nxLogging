@@ -7,7 +7,9 @@ You can use file logging in various strategies (plain, rolling file appender, ..
 
 There is also a free tool "nxTail" for live viewing logs. This can tail your log files and can be connected to log servers, to show all logs from all sources.
 
-For a video tutorial click [here](https://www.youtube.com/watch?v=gD03HFQacPs)
+For a quick overview in german click [here](https://www.navimatix.de/developer_solutions/logserver#logserver_log_delphi).
+
+For a german tutorial video click [here](https://www.youtube.com/watch?v=gD03HFQacPs).
 
 Containing packages for:
 * XE5
