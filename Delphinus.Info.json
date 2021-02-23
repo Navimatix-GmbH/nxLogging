@@ -10,9 +10,9 @@
         }
     ],
     "platforms": "Win32;Win64;Android",
-    "package_compiler_min": 24,
+    "package_compiler_min": 19,
     "package_compiler_max": 27,
-    "compiler_min": 24,
-    "compiler_max": 27,
+    "compiler_min": 26,
+    "compiler_max": 34,
     "first_version": "1.4.3.1"
 }
