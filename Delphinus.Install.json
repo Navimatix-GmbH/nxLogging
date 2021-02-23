@@ -24,6 +24,10 @@
 	],
 	"projects":
 	[
+	{
+		"project": "packages\\xe5\\nxLoggingComponents190.dproj",
+      		"compiler": 26
+		},
 		{
 			"project": "packages\\dxberlin\\nxLoggingComponents240.dproj",
       			"compiler": 31
