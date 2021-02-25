@@ -1,4 +1,4 @@
-{ ****************************************************************************
+﻿{ ****************************************************************************
  ***** Dateiname               : nxLogging.pas ******************************
  ***** Autor                   : Navimatix GmbH, Matthias Heunecke **********
  ***** Erstellt am             : 08.07.2012 *********************************
@@ -94,8 +94,14 @@ type
 
   //{$IFDEF ANDROID}
   {$IF Defined(ANDROID) or Defined(IOS)}
+  {$IF CompilerVersion < 34.0 }
   TFMThreadSafeList = TIdThreadSafeList<TObject>;
   TFMList = TList<TObject>;
+  {$ELSE}
+  // from DX10.4 on
+  TFMThreadSafeList = TIdThreadSafeList;
+  TFMList = TList;
+  {$IFEND}
   {$ELSE}
   TFMThreadSafeList = TIdThreadSafeList;
   TFMList = TList;
