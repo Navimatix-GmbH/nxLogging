@@ -14,6 +14,7 @@ For a german tutorial video click [here](https://www.youtube.com/watch?v=gD03HFQ
 Containing packages for:
 * XE5
 * DX Berlin
+* DX Tokyo
 * DX Rio
 * DX Sydney
 

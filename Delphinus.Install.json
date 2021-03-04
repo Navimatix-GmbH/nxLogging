@@ -32,6 +32,10 @@
 			"project": "packages\\dxberlin\\nxLoggingComponents240.dproj",
       			"compiler": 31
 		},
+		{
+			"project": "packages\\dxberlin\\nxLoggingComponents250.dproj",
+      			"compiler": 32
+		},
     		{
 			"project": "packages\\dxrio\\nxLoggingComponents260.dproj",
       			"compiler": 33
