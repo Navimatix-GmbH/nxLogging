@@ -12,10 +12,26 @@
 { **************************************************************************** }
 unit nxLoggingFiles;
 
+{$IFDEF FPC}
+  {$DEFINE USEMODERNINDYIMPLEMENTATION}
+{$ELSE}
+{$IF CompilerVersion >= 24.0}
+  {$DEFINE _WASLEGACYIFDEFSYNTAX}
+  {$DEFINE USESYSTEMPREFIXFORUNITS}
+  {$DEFINE USEMODERNINDYIMPLEMENTATION}
+  {$DEFINE USESTRINGSLIKECLASSES}
+{$IFEND}
+{$IFEND}
+
 interface
 
-uses System.Classes, System.Types, System.SyncObjs, System.SysUtils,
-     nxLogging, IdTCPClient, IdThreadSafe;
+uses nxLogging, IdTCPClient, IdThreadSafe,
+     {$IFDEF USESYSTEMPREFIXFORUNITS}
+     System.Classes, System.Types, System.SyncObjs, System.SysUtils
+     {$ELSE}
+     Classes, Types, SyncObjs, SysUtils
+     {$IFEND}
+     ;
 
 type
 
@@ -371,7 +387,16 @@ type
 
 implementation
 
-uses System.Math, IdGlobal, System.IOUtils;
+uses
+{$IFDEF FPC}
+  Math, IdGlobal;
+{$ELSE}
+{$IFDEF USESYSTEMPREFIXFORUNITS}
+  System.Math, IdGlobal, System.IOUtils;
+{$ELSE}
+  Math, IdGlobal, IOUtils;
+{$IFEND}
+{$IFEND}
 
 const
 
@@ -557,6 +582,9 @@ begin
       begin
         fOnUpdateAsync(self, fCurrentLines, '');
       end;
+      {$IFDEF FPC}
+        //implement me...
+      {$ELSE}
       if Assigned(fOnUpdate) then
       begin
         Synchronize(procedure
@@ -564,6 +592,7 @@ begin
           fOnUpdate(self, fCurrentLines, '');
         end);
       end;
+      {$IFEND}
     end;
   end;
 end;
@@ -968,6 +997,9 @@ begin
       begin
         fOnUpdateAsync(self, sl, '');
       end;
+      {$IFDEF FPC}
+        //implement me...
+      {$ELSE}
       if Assigned(fOnUpdate) then
       begin
         Synchronize(procedure
@@ -975,6 +1007,7 @@ begin
           fOnUpdate(self, sl, '');
         end);
       end;
+      {$IFEND}
     end;
   finally
     FreeAndNil(sl);
@@ -1136,13 +1169,18 @@ var zs, resstr    : String;
         begin
           zs  := Format('tail:%0:s|%1:s|%2:s', [fParent.getUsername, fParent.getPassword, encodeBase64(fParent.getFiltersAsText)]);
         end;
-        {$if CompilerVersion > 24}
+        {$IFDEF USEMODERNINDYIMPLEMENTATION}
+        {$IFDEF FPC}
+        fTCPClient.IOHandler.WriteLn(zs, IndyTextEncoding(fEncoding.CodePage));
+        zs  := fTCPClient.IOHandler.ReadLn(EOL, 30000, -1, IndyTextEncoding(fEncoding.CodePage));
+        {$ELSE}
         fTCPClient.IOHandler.WriteLn(zs, IndyTextEncoding(fEncoding));
         zs  := fTCPClient.IOHandler.ReadLn(EOL, 30000, -1, IndyTextEncoding(fEncoding));
-        {$else}
+        {$IFEND}
+        {$ELSE}
         fTCPClient.IOHandler.WriteLn(zs, fEncoding);
         zs  := fTCPClient.IOHandler.ReadLn(EOL, 30000, -1, fEncoding);
-        {$ifend}
+        {$IFEND}
         zs  := lowercase(zs);
         if zs = 'ok' then
         begin
@@ -2225,6 +2263,8 @@ begin
 end;
 
 
-
+{$IFDEF _WASLEGACYIFDEFSYNTAX}
+  {$LEGACYIFEND OFF}
+{$ENDIF}
 
 end.

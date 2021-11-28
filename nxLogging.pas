@@ -24,9 +24,15 @@
  *****            logging-fuer-delphi-nxlogging/tutorial/ *******************
  **************************************************************************** }
 
-{$IF CompilerVersion >= 24.0 }
-  {$LEGACYIFEND ON}
+{$IFDEF FPC}
+  {$DEFINE USEMODERNINDYIMPLEMENTATION}
+{$ELSE}
+{$IF CompilerVersion >= 24.0}
   {$DEFINE _WASLEGACYIFDEFSYNTAX}
+  {$DEFINE USESYSTEMPREFIXFORUNITS}
+  {$DEFINE USEMODERNINDYIMPLEMENTATION}
+  {$DEFINE USESTRINGSLIKECLASSES}
+{$IFEND}
 {$IFEND}
 
 unit nxLogging;
@@ -39,10 +45,14 @@ uses
   {$ELSE}
 
   {$IFEND}
+  {$IFDEF FPC}
+    Classes, Types, SyncObjs, SysUtils,
+  {$ELSE}
   {$IF CompilerVersion >= 24.0 }
     System.Classes, System.Types, System.SyncObjs, System.SysUtils,
   {$ELSE}
     Classes, Types, SyncObjs, SysUtils,
+  {$IFEND}
   {$IFEND}
 
   IdTCPClient, IdThreadSafe;
@@ -106,7 +116,6 @@ type
   TFMThreadSafeList = TIdThreadSafeList;
   TFMList = TList;
   {$IFEND}
-
 
   ///  <summary>
   ///  <para>
@@ -902,7 +911,7 @@ type
   private
     fAppender   : TNxLogAppender;
   public
-    constructor Create(Collection: TCollection); override;
+    constructor Create(aCollection: TCollection); override;
     destructor Destroy; override;
 
     procedure append(const aEvent : TNxLoggerMessage);
@@ -960,14 +969,19 @@ type
 
   TNxLogger = class(TComponent, INxLogger)
   private
-    fCSLog                : TCriticalSection;
+  {$IFDEF USESYSTEMPREFIXFORUNITS}
+    fCSLog                : System.SyncObjs.TCriticalSection;
+    fCSCurrentLevel       : System.SyncObjs.TCriticalSection;
+  {$ELSE}
+    fCSLog                : SyncObjs.TCriticalSection;
+    fCSCurrentLevel       : SyncObjs.TCriticalSection;
+  {$IFEND}
     fLogFormatSettings    : TFormatSettings;
     fApplicationID        : String;
     fInstanceID           : String;
     fUserIdent            : String;
     fLanguage             : String;
     fCurrentLevel         : TNxLoggerLevel;
-    fCSCurrentLevel       : TCriticalSection;
     fAppenders            : TNxLoggerCollection;
     fFilters              : TFMThreadSafeList;
 
@@ -1060,13 +1074,27 @@ windows,
 Posix.Stdio,
 {$ENDIF}
 
+{$IFDEF FPC}
+  TypInfo, Math, DateUtils, LazSysUtils, streamex,
+{$ELSE}
 {$IF CompilerVersion >= 24.0 }
   System.TypInfo, System.Math, System.DateUtils,
 {$ELSE}
   TypInfo, Math, DateUtils,
 {$IFEND}
+{$IFEND}
 
   IdHashMessageDigest, IdGlobal, IdCoderMIME, IdStack;
+
+type
+
+  {$IFDEF FPC}
+  TNxLoggingWriter  = TDelphiWriter;
+  TNxLoggingReader  = TDelphiReader;
+  {$ELSE}
+  TNxLoggingWriter  = TWriter;
+  TNxLoggingReader  = TReader;
+  {$IFEND}
 
 var
 
@@ -1079,7 +1107,11 @@ var
 
 function NowUTC: TDateTime;
 begin
+{$IFDEF FPC}
+  result := LazSysUtils.NowUTC;
+{$ELSE}
   result := TTimeZone.Local.ToUniversalTime(Now);
+{$IFEND}
 end;
 
 {$IFDEF MSWINDOWS}
@@ -1141,6 +1173,53 @@ begin
   end;
 end;
 
+{$IFDEF FPC}
+function encodeBase64(const aText: string): String;
+var cCoder: TIdEncoderMIME;
+begin
+  cCoder := TIdEncoderMIME.Create(nil);
+  try
+    result  := cCoder.EncodeString(aText, IndyTextEncoding_UTF8);
+  finally
+    FreeAndNil(cCoder);
+  end;
+end;
+
+function decodeBase64(const EncodedText: string): String;
+var cCoder: TIdDecoderMIME;
+    zs8   : String;
+begin
+  cCoder := TIdDecoderMIME.Create(nil);
+  try
+    zs8  := String(cCoder.DecodeString(EncodedText));
+    result  := String(zs8);
+  finally
+    FreeAndNil(cCoder);
+  end;
+end;
+
+function GetLocalComputerName: string;
+begin
+  // todo: implement me...
+  result := '';
+end;
+
+function convertBytesToString(aBytes : TBytes) : String;
+begin
+  result  := TEncoding.UTF8.GetString(aBytes);
+end;
+
+function convertStringToBytes(aString : String) : TBytes;
+begin
+  result := TEncoding.UTF8.GetBytes(aString);
+end;
+
+function getUserFromOS: string;
+begin
+  // todo: implement me...
+  result := '';
+end;
+{$ELSE}
 {$if CompilerVersion > 24}
 
 function encodeBase64(const aText: string): String;
@@ -1285,7 +1364,8 @@ begin
   end;
 end;
 
-{$ifend}
+{$IFEND}
+{$IFEND}
 
 function _TryStrToDateTime(const S: string; out Value: TDateTime; const aFormatSettings: TFormatSettings) : Boolean;
 var ind   : Integer;
@@ -1304,7 +1384,7 @@ begin
       begin
         // Mit Millisekunden...
         msts  := Copy(msts, ind+1, length(msts)-ind);
-        {$IF CompilerVersion >= 24.0 }
+        {$IFDEF USESYSTEMPREFIXFORUNITS}
           Value := System.DateUtils.IncMilliSecond(Value, StrToIntDef(msts, 0));
         {$ELSE}
           Value := DateUtils.IncMilliSecond(Value, StrToIntDef(msts, 0));
@@ -2687,7 +2767,7 @@ begin
       if FileExists(cFilename) then
       begin
         cNewFilename := fDirectory + fFilenameBase + '_' + SC_FILEFROM + '_'+ DateToStr(nowUTC, fFormatSettings) + '.nxlog';
-        {$IF CompilerVersion >= 24.0 }
+        {$IFDEF USESYSTEMPREFIXFORUNITS}
           if not System.SysUtils.RenameFile(cFilename, cNewFilename) then
         {$ELSE}
           if not SysUtils.RenameFile(cFilename, cNewFilename) then
@@ -2757,7 +2837,18 @@ end;
 { **************************************************************************** }
 { ***** TNxLogAppenderTCPThread ********************************************** }
 { **************************************************************************** }
-
+{$IFDEF FPC}
+function getMD5OfString(const aString : string) : string;
+var idmd5 : TIdHashMessageDigest5;
+begin
+  idmd5 := TIdHashMessageDigest5.Create;
+  try
+    result  := idmd5.HashStringAsHex(aString, IndyTextEncoding_UTF8);
+  finally
+   idmd5.Free;
+  end;
+end;
+{$ELSE}
 {$if CompilerVersion > 24}
 function getMD5OfString(const aString : string) : string;
 var idmd5 : TIdHashMessageDigest5;
@@ -2769,7 +2860,7 @@ begin
    idmd5.Free;
   end;
 end;
-{$else}
+{$ELSE}
 function getMD5OfString(const aString : string) : string;
 var idmd5 : TIdHashMessageDigest5;
 begin
@@ -2780,7 +2871,8 @@ begin
    idmd5.Free;
   end;
 end;
-{$ifend}
+{$IFEND}
+{$IFEND}
 
 constructor TNxLogAppenderTCPThread.Create(CreateSuspended: Boolean);
 begin
@@ -2832,13 +2924,13 @@ var cEntry              : String;
         begin
           _cPWD := '';
         end;
-        {$if CompilerVersion > 24}
+        {$IFDEF USEMODERNINDYIMPLEMENTATION}
         fTCP.IOHandler.WriteLn(fUsername, IndyTextEncoding_UTF8);
         fTCP.IOHandler.WriteLn(_cPWD, IndyTextEncoding_UTF8);
-        {$else}
+        {$ELSE}
         fTCP.IOHandler.WriteLn(fUsername, TEncoding.UTF8);
         fTCP.IOHandler.WriteLn(_cPWD, TEncoding.UTF8);
-        {$ifend}
+        {$IFEND}
       end;
     except
       FreeAndNil(fTCP);
@@ -2883,11 +2975,11 @@ begin
           try
             if (fTCP <> nil) and (fTCP.IOHandler <> nil) then
             begin
-              {$if CompilerVersion > 24}
+              {$IFDEF USEMODERNINDYIMPLEMENTATION}
               fTCP.IOHandler.WriteLn('log:'+cEntry, IndyTextEncoding_UTF8);
               cres := ftcp.IOHandler.ReadLnWait(2, IndyTextEncoding_UTF8);
               //cRes  := fTCP.IOHandler.ReadLn(idglobal.EOL, 5000, -1, IndyTextEncoding_UTF8);
-              {$else}
+              {$ELSE}
               fTCP.IOHandler.WriteLn('log:'+cEntry, TEncoding.UTF8);
               cRes  := fTCP.IOHandler.ReadLn(idglobal.EOL, 5000, -1, TEncoding.UTF8);
               {$IFEND}
@@ -2896,17 +2988,17 @@ begin
               _disconnect;
               break;
             end;
-            {$if CompilerVersion > 24}
+            {$IFDEF USESTRINGSLIKECLASSES}
             ind := cRes.IndexOf(':');
-            {$else}
+            {$ELSE}
             ind := Pos(':', cRes);
             {$IFEND}
             if ind > 0 then
             begin
-              {$if CompilerVersion > 24}
+              {$IFDEF USESTRINGSLIKECLASSES}
               cResCodeS := cRes.Substring(0, ind);
               cResCodeT := cRes.Substring(ind+1);
-              {$else}
+              {$ELSE}
               cResCodeS := Copy(cRes, 1, ind);
               cResCodeT := Copy(cRes, ind+1, length(cRes)-ind);
               {$IFEND}
@@ -3024,7 +3116,7 @@ begin
       begin
         if fTCP <> nil then
         begin
-          {$IF CompilerVersion >= 24.0 }
+          {$IFDEF USESYSTEMPREFIXFORUNITS}
             if (fDisconnectSeconds > 0) and (System.DateUtils.SecondsBetween(cLastLogMessage, Now) > fDisconnectSeconds) then
           {$ELSE}
             if (fDisconnectSeconds > 0) and (DateUtils.SecondsBetween(cLastLogMessage, Now) > fDisconnectSeconds) then
@@ -3250,9 +3342,9 @@ end;
 { **************************************************************************** }
 { ***** TNxLoggerCollectionItem ********************************************** }
 { **************************************************************************** }
-constructor TNxLoggerCollectionItem.Create(Collection: TCollection);
+constructor TNxLoggerCollectionItem.Create(aCollection: TCollection);
 begin
-  inherited Create(Collection);
+  inherited Create(aCollection);
   fAppender := nil;
 end;
 
@@ -3278,18 +3370,24 @@ end;
 constructor TNxLogger.Create(AOwner : TComponent);
 begin
   inherited Create(AOwner);
-  fAppenders  := TNxLoggerCollection.Create(TNxLoggerCollectionItem);
-  fCSLog  := TCriticalSection.Create;
-  fCSCurrentLevel := TCriticalSection.Create;
+  fAppenders      := TNxLoggerCollection.Create(TNxLoggerCollectionItem);
+
+{$IFDEF USESYSTEMPREFIXFORUNITS}
+  fCSLog          := System.SyncObjs.TCriticalSection.Create;
+  fCSCurrentLevel := System.SyncObjs.TCriticalSection.Create;
+{$ELSE}
+  fCSLog          := SyncObjs.TCriticalSection.Create;
+  fCSCurrentLevel := SyncObjs.TCriticalSection.Create;
+{$IFEND}
   initLoggerFormatSettings(fLogFormatSettings);
-  fApplicationID    := ChangeFileExt(ExtractFileName(ParamStr(0)), '');
-  fInstanceID       := internalGetCurrentProcessId;
-  fUserIdent        := getUserFromOS;
-  fLanguage         := '';
-  fCurrentLevel     := NXLL_INFO;
-  fFilters  := TFMThreadSafeList.Create;
-  fOnAppend := nil;
-  fOnLog    := nil;
+  fApplicationID  := ChangeFileExt(ExtractFileName(ParamStr(0)), '');
+  fInstanceID     := internalGetCurrentProcessId;
+  fUserIdent      := getUserFromOS;
+  fLanguage       := '';
+  fCurrentLevel   := NXLL_INFO;
+  fFilters        := TFMThreadSafeList.Create;
+  fOnAppend       := nil;
+  fOnLog          := nil;
 end;
 
 destructor  TNxLogger.Destroy;
@@ -3911,16 +4009,16 @@ begin
 end;
 
 procedure TNxLoggerMessageFilterLevelSet.saveToStream(aStream : TStream);
-var wr  : TWriter;
+var wr  : TNxLoggingWriter;
     i   : TNxLoggerLevel;
     zs  : String;
 begin
-  wr  := TWriter.Create(aStream, 1024);
+  wr  := TNxLoggingWriter.Create(aStream, 1024);
   try
     wr.WriteListBegin;
     for i := Low(TNxLoggerLevel) to High(TNxLoggerLevel) do
     begin
-      {$IF CompilerVersion >= 24.0 }
+      {$IFDEF USESYSTEMPREFIXFORUNITS}
         zs  := System.TypInfo.GetEnumName(System.TypeInfo(TNxLoggerLevel), Integer(i));
       {$ELSE}
         zs  := TypInfo.GetEnumName(System.TypeInfo(TNxLoggerLevel), Integer(i));
@@ -4029,9 +4127,9 @@ begin
 end;
 
 procedure TNxLoggerMessageFilterByText.saveToStream(aStream : TStream);
-var wr  : TWriter;
+var wr  : TNxLoggingWriter;
 begin
-  wr  := TWriter.Create(aStream, 1024);
+  wr  := TNxLoggingWriter.Create(aStream, 1024);
   try
     wr.WriteString('FilterText');
     wr.WriteString(fText);
@@ -4350,7 +4448,7 @@ end;
 
 
 initialization
-  {$IF CompilerVersion >= 24.0 }
+  {$IFDEF USESYSTEMPREFIXFORUNITS}
     System.Classes.RegisterClass(TNxLoggerMessageFilterLevelSet);
     System.Classes.RegisterClass(TNxLoggerMessageFilterModuleEquals);
     System.Classes.RegisterClass(TNxLoggerMessageFilterModuleStarting);
@@ -4391,7 +4489,7 @@ initialization
 finalization
 
   FreeAndNil(fDefaultLogger);
-  {$IF CompilerVersion >= 24.0 }
+  {$IFDEF USESYSTEMPREFIXFORUNITS}
     System.Classes.UnRegisterClass(TNxLoggerMessageFilterLevelSet);
     System.Classes.UnRegisterClass(TNxLoggerMessageFilterModuleEquals);
     System.Classes.UnRegisterClass(TNxLoggerMessageFilterModuleStarting);

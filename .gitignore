@@ -6,7 +6,9 @@
 **/__history
 **/__recovery
 doc/docoutput/*
+**/backup
 
+packages/lazarus/lib/*
 Win32/*
 Win64/*
 Android/*
