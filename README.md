@@ -17,5 +17,6 @@ Containing packages for:
 * DX Tokyo
 * DX Rio
 * DX Sydney
+* DXI Alexandria
 
 # Now with Delphinus-Support
