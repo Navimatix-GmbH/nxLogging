@@ -1,4 +1,4 @@
-package nxLoggingComponents280;
+package nxLoggingComponents;
 
 {$R *.res}
 {$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
@@ -25,6 +25,7 @@ package nxLoggingComponents280;
 {$IMAGEBASE $400000}
 {$DEFINE DEBUG}
 {$ENDIF IMPLICITBUILDING}
+{$LIBSUFFIX '280'}
 {$RUNONLY}
 {$IMPLICITBUILD ON}
 
