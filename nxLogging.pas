@@ -782,13 +782,15 @@ type
 
   TNxLogAppenderFile = class(TNxLogAppender)
   private
-    fFormater       : TNxLogFormater;
-    fFormatSettings : TFormatSettings;
-    fDirectory      : String;
-    fFilenameBase   : String;
-    fRetryCount     : Integer;
-    fStrategy       : TNxLogAppenderFileStrategy;
-    fLastDate       : TDate;
+    fFormater           : TNxLogFormater;
+    fFormatSettings     : TFormatSettings;
+    fDirectory          : String;
+    fFilenameBase       : String;
+    fRetryCount         : Integer;
+    fStrategy           : TNxLogAppenderFileStrategy;
+    fLastDate           : TDate;
+    fCurrentFilename    : String;
+    fCSCurrentFilename  : TCriticalSection;
   protected
     function  isNextDay : Boolean;
 
@@ -797,6 +799,8 @@ type
     procedure appendSingleFile(const aEvent : TNxLoggerMessage); virtual;
     procedure appendNewFiles(const aEvent : TNxLoggerMessage); virtual;
     procedure appendRename(const aEvent : TNxLoggerMessage); virtual;
+    procedure setCurrentFilename(aValue : String); virtual;
+    function  getCurrentFilename : String; virtual;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -804,6 +808,7 @@ type
     procedure append(const aEvent : TNxLoggerMessage); override;
 
     property Strategy : TNxLogAppenderFileStrategy read fStrategy write fStrategy;
+    property CurrentFilename  : String read getCurrentFilename write setCurrentFilename;
   end;
 
   TNxLogger = class;
@@ -2602,11 +2607,14 @@ begin
   initLoggerFormatSettings(fFormatSettings);
   fStrategy     := NXLFS_NEWFILES;
   fLastDate     := trunc(NowUTC);
+  fCSCurrentFilename  := TCriticalSection.Create;
+  fCurrentFilename    := '';
 end;
 
 destructor TNxLogAppenderFile.Destroy;
 begin
   FreeAndNil(fFormater);
+  FreeAndNil(fCSCurrentFilename);
   inherited Destroy;
 end;
 
@@ -2671,6 +2679,7 @@ begin
   try
     if not DirectoryExists(fDirectory) then ForceDirectories(fDirectory);
     cFilename := fDirectory + fFilenameBase + '_' + SC_ALLFILETAIL + '.nxlog';
+    CurrentFilename := cFilename;
     logout  := String(fFormater.formatMessage(aEvent));
     if FileExists(cFilename) then
     begin
@@ -2716,6 +2725,7 @@ begin
   try
     if not DirectoryExists(fDirectory) then ForceDirectories(fDirectory);
     cFilename := fDirectory + fFilenameBase + '_' + DateToStr(nowUTC, fFormatSettings) + '.nxlog';
+    CurrentFilename := cFilename;
     logout  := String(fFormater.formatMessage(aEvent));
     if FileExists(cFilename) then
     begin
@@ -2762,6 +2772,7 @@ begin
   try
     if not DirectoryExists(fDirectory) then ForceDirectories(fDirectory);
     cFilename := fDirectory + fFilenameBase + '_' + SC_CURRENTFILETAIL + '.nxlog';
+    CurrentFilename := cFilename;
     if isNextDay then
     begin
       if FileExists(cFilename) then
@@ -2806,6 +2817,45 @@ begin
     dec(retrycount);
     sleep(50);
     goto lblretry;
+  end;
+end;
+
+procedure TNxLogAppenderFile.setCurrentFilename(aValue : String);
+begin
+  fCSCurrentFilename.Enter;
+  try
+    fCurrentFilename  := aValue;
+  finally
+    fCSCurrentFilename.Leave;
+  end;
+end;
+
+function  TNxLogAppenderFile.getCurrentFilename : String;
+begin
+  fCSCurrentFilename.Enter;
+  try
+    if fCurrentFilename = '' then
+    begin
+      case fStrategy of
+        NXLFS_SINGLEFILE:
+        begin
+          fCurrentFilename := fDirectory + fFilenameBase + '_' + SC_ALLFILETAIL + '.nxlog';
+        end;
+        NXLFS_NEWFILES:
+        begin
+          fCurrentFilename := fDirectory + fFilenameBase + '_' + DateToStr(nowUTC, fFormatSettings) + '.nxlog';
+        end;
+        NXLFS_RENAME:
+        begin
+          fCurrentFilename := fDirectory + fFilenameBase + '_' + SC_CURRENTFILETAIL + '.nxlog';
+        end;
+      else
+        fCurrentFilename := fDirectory + fFilenameBase + '_' + DateToStr(nowUTC, fFormatSettings) + '.nxlog';
+      end;
+    end;
+    result := fCurrentFilename;
+  finally
+    fCSCurrentFilename.Leave;
   end;
 end;
 
